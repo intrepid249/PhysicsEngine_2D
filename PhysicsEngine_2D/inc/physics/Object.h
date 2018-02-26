@@ -1,6 +1,8 @@
 #pragma once
 #include <glm\glm.hpp>
 
+#include "physics\Collision.hpp"
+
 namespace aie {
 	class Renderer2D;
 }
@@ -26,7 +28,7 @@ namespace physics {
 		void applyForce(const glm::vec2 &force);
 		void applyImpulse(const glm::vec2 &force);
 
-		bool isColliding(Object *other);
+		bool isColliding(Collision &col);
 
 		/*GETTERS AND SETTERS*/
 		void setPosition(const glm::vec2 &position);
@@ -66,6 +68,6 @@ namespace physics {
 		/*
 		* Check if two circles are colliding with each other
 		*/
-		bool isCollidingCirCir(Circle *objA, Circle *objB);
+		bool isCollidingCirCir(Collision &col);
 	};
 }

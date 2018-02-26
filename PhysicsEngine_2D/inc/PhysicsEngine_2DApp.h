@@ -5,6 +5,7 @@
 
 namespace physics {
 	class Scene;
+	class MouseController;
 }
 
 class PhysicsEngine_2DApp : public aie::Application {
@@ -21,8 +22,9 @@ public:
 
 protected:
 
-	aie::Renderer2D*	m_2dRenderer;
-	aie::Font*			m_font;
+	aie::Renderer2D*			m_2dRenderer;
+	aie::Font*					m_font;
 
-	physics::Scene		*m_scene = nullptr;
+	physics::Scene				*m_scene = nullptr;
+	physics::MouseController	*m_mouseController = nullptr;
 };

@@ -98,8 +98,8 @@ void Scene::removeObject(Object *object)
 	// Erase it if we found it
 	if (iter != m_objects.end()) {
 		m_objects.erase(iter);
+		delete object;
 	}
-	delete object;
 }
 
 void Scene::applyGlobalForce()
@@ -144,10 +144,10 @@ void Scene::detectCollisions()
 		// The second loop only checks objects after the first int the array
 		for (auto object2 = object + 1; object2 != m_objects.end(); object2++)
 		{
-			if ((*object)->isColliding(*object2)) {
-				Collision tempCollision;
-				tempCollision.objA = *object;
-				tempCollision.objB = *object2;
+			Collision tempCollision;
+			tempCollision.objA = *object;
+			tempCollision.objB = *object2;
+			if ((*object)->isColliding(tempCollision)) {
 				m_collisions.push_back(tempCollision);
 			}
 		}
@@ -158,17 +158,27 @@ void Scene::resolveCollisions()
 {
 	for (auto col : m_collisions) {
 		// Create a normalised collision vector between the two shapes
-		glm::vec2 collisionNormal = glm::normalize(col.objB->getPosition() - col.objA->getPosition());
+		//glm::vec2 collisionNormal = glm::normalize(col.objB->getPosition() - col.objA->getPosition());
 
 		glm::vec2 relativeVelocity = col.objB->getVelocity() - col.objA->getVelocity();
 
 		// Put together the impulse forces and calculate elasticity
-		float avgElasticity = 0.8;
-		float impulseScale = glm::dot(-(1 + avgElasticity) * relativeVelocity, collisionNormal) / glm::dot(collisionNormal, collisionNormal * ((1 / col.objA->getMass()) + (1 / col.objB->getMass())));
+		float avgElasticity = 0.8f;
+		float impulseScale = glm::dot(-(1 + avgElasticity) * relativeVelocity, col.normal) / glm::dot(col.normal, col.normal * ((1 / col.objA->getMass()) + (1 / col.objB->getMass())));
 		
 		// Apply the impulse forces without multiplying by delta time
-		col.objA->applyImpulse(-collisionNormal * impulseScale);
-		col.objB->applyImpulse(collisionNormal * impulseScale);
+		if (!col.objA->isStatic())
+			col.objA->applyImpulse(-col.normal * impulseScale);
+		if (!col.objB->isStatic())
+			col.objB->applyImpulse(col.normal * impulseScale);
+
+		// Separation
+		if (col.objA->getShapeType() == CIRCLE && col.objB->getShapeType() == CIRCLE) {
+			if (!col.objA->isStatic())
+				col.objA->setPosition(col.objA->getPosition() - (col.normal * col.penetration * 0.5f));
+			if (!col.objB->isStatic())
+				col.objB->setPosition(col.objB->getPosition() + (col.normal * col.penetration * 0.5f));
+		}
 	}
 	m_collisions.clear();
 }

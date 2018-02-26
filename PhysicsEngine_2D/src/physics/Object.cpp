@@ -38,15 +38,15 @@ void Object::applyImpulse(const glm::vec2 & force)
 	m_velocity += force / m_mass;
 }
 
-bool Object::isColliding(Object * other)
+bool Object::isColliding(Collision &col)
 {
 	switch (m_shape)
 	{
 	case CIRCLE:
-		switch (other->getShapeType())
+		switch (col.objB->getShapeType())
 		{
 		case CIRCLE:
-			return isCollidingCirCir((Circle*)this, (Circle*)other);
+			return isCollidingCirCir(col);
 			break;
 		case PLANE:
 			break;
@@ -56,7 +56,7 @@ bool Object::isColliding(Object * other)
 		break;
 
 	case PLANE:
-		switch (other->getShapeType())
+		switch (col.objB->getShapeType())
 		{
 		case CIRCLE:
 			break;
@@ -69,7 +69,7 @@ bool Object::isColliding(Object * other)
 		break;
 
 	case AABB:
-		switch (other->getShapeType())
+		switch (col.objB->getShapeType())
 		{
 		case CIRCLE:
 			break;
@@ -164,17 +164,21 @@ const bool Object::isStatic()
 
 #pragma endregion
 
-bool physics::Object::isCollidingCirCir(Circle *objA, Circle * objB)
+bool physics::Object::isCollidingCirCir(Collision &col)
 {
 	// Assumptions are being made that these are both circles
-	assert(objA != nullptr);
-	assert(objB != nullptr);
+	assert(col.objA != nullptr);
+	assert(col.objB != nullptr);
 
 	// find the distance between centres
-	float distance = glm::distance(objA->getPosition(), objB->getPosition());
+	float distance = glm::distance(col.objA->getPosition(), col.objB->getPosition());
 
 	// Add the two radii
-	float radii = objA->getRadius() + objB->getRadius();
+	float radii = ((physics::Circle*)col.objA)->getRadius() + ((physics::Circle*)col.objB)->getRadius();
+
+	col.normal = glm::normalize(col.objB->getPosition() - col.objA->getPosition());
+
+	col.penetration = radii - distance;
 
 	// Is the distance smaller than the radius length?
 	return distance < radii;

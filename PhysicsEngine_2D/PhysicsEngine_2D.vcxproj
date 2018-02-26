@@ -172,7 +172,10 @@
     <ClCompile Include="src\physics\Circle.cpp" />
     <ClCompile Include="src\PhysicsEngine_2DApp.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\physics\MouseController.cpp" />
     <ClCompile Include="src\physics\Object.cpp" />
+    <ClCompile Include="src\physics\Plane.cpp" />
+    <ClCompile Include="src\physics\Rect.cpp" />
     <ClCompile Include="src\physics\Scene.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -181,7 +184,10 @@
     <ClInclude Include="inc\physics\Circle.h" />
     <ClInclude Include="inc\physics\Collision.hpp" />
     <ClInclude Include="inc\physics\ColorUtils.hpp" />
+    <ClInclude Include="inc\physics\MouseController.h" />
     <ClInclude Include="inc\physics\Object.h" />
+    <ClInclude Include="inc\physics\Plane.h" />
+    <ClInclude Include="inc\physics\Rect.h" />
     <ClInclude Include="inc\physics\Scene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

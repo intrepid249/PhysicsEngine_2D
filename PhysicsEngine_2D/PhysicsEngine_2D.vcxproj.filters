@@ -33,6 +33,15 @@
     <ClCompile Include="src\ini\GlobalConfig.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\physics\MouseController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\physics\Rect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\physics\Plane.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\PhysicsEngine_2DApp.h">
@@ -54,6 +63,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="inc\ini\GlobalConfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\physics\MouseController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\physics\Rect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\physics\Plane.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
