@@ -49,6 +49,9 @@ namespace physics {
 		void setFriction(const float friction);
 		const float getFriction();
 
+		void setElasticity(const float elasticity);
+		const float getElasticity();
+
 		const ShapeType getShapeType();
 		const bool isStatic();
 
@@ -64,10 +67,12 @@ namespace physics {
 
 		float m_mass = 1.0f;
 		float m_friction = 0.3f;
+		float m_elasticity = 1.0f;
 
 		/*
 		* Check if two circles are colliding with each other
 		*/
 		bool isCollidingCirCir(Collision &col);
+		bool isCollidingCirPlane(Collision &col);
 	};
 }

@@ -1,5 +1,6 @@
 #include "physics\Object.h"
 #include "physics\Circle.h"
+#include "physics\Plane.h"
 
 using namespace physics;
 
@@ -49,6 +50,7 @@ bool Object::isColliding(Collision &col)
 			return isCollidingCirCir(col);
 			break;
 		case PLANE:
+			return isCollidingCirPlane(col);
 			break;
 		case AABB:
 			break;
@@ -59,14 +61,9 @@ bool Object::isColliding(Collision &col)
 		switch (col.objB->getShapeType())
 		{
 		case CIRCLE:
-			break;
-		case PLANE:
-			// Left blank because planes will never collide with other planes?
-			break;
-		case AABB:
+			return isCollidingCirPlane(col);
 			break;
 		}
-		break;
 
 	case AABB:
 		switch (col.objB->getShapeType())
@@ -152,6 +149,16 @@ const float physics::Object::getFriction()
 	return m_friction;
 }
 
+void Object::setElasticity(const float elasticity)
+{
+	m_elasticity = elasticity;
+}
+
+const float Object::getElasticity()
+{
+	return m_elasticity;
+}
+
 const ShapeType physics::Object::getShapeType()
 {
 	return m_shape;
@@ -182,4 +189,34 @@ bool physics::Object::isCollidingCirCir(Collision &col)
 
 	// Is the distance smaller than the radius length?
 	return distance < radii;
+}
+
+bool physics::Object::isCollidingCirPlane(Collision & col)
+{
+	physics::Circle *obj = nullptr;
+	physics::Plane *other = nullptr;
+
+	if (col.objA->getShapeType() == CIRCLE) {
+		 obj = (physics::Circle*)col.objA;
+		 other = (physics::Plane*)col.objB;
+	}
+	else {
+		obj = (physics::Circle*)col.objB;
+		other = (physics::Plane*)col.objA;
+	}
+
+	glm::vec2 c = obj->getPosition(); // get the centre position of the circle
+	glm::vec2 p;
+
+	col.normal = other->getNormal();
+
+	// Calculate the closest point on the plane
+	if (other->getNormal().x != 0) // x-aligned axis
+		p = glm::vec2(other->getPosition().x, c.y);
+	if (other->getNormal().y != 0) // y-aligned axis
+		p = glm::vec2(c.x, other->getPosition().y);
+
+	if (glm::distance(c, p) < obj->getRadius())
+		return true;
+	return false;
 }

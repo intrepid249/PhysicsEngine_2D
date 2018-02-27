@@ -6,7 +6,10 @@
 #include <Gizmos.h>
 
 #include "physics\Circle.h"
+#include "physics\Plane.h"
 #include "physics\Scene.h"
+
+#include "ini\GlobalConfig.h"
 
 #include "physics\MouseController.h"
 
@@ -44,18 +47,36 @@ bool PhysicsEngine_2DApp::startup() {
 
 
 	// Create a 'Heavy' ball
-	physics::Circle *ball = new physics::Circle(physics::CIRCLE, glm::vec2(100, 100), 30, 10, glm::vec4(0.2f, 0.1f, 0.7f, 0.9f), false);
-	ball->setVelocity(glm::vec2(300.0f, 0.0f));
-	m_scene->addObject(ball);
+	//physics::Circle *ball = new physics::Circle(physics::CIRCLE, glm::vec2(100, 100), 30, 10, glm::vec4(0.2f, 0.1f, 0.7f, 0.9f), false);
+	//ball->setVelocity(glm::vec2(300.0f, 0.0f));
+	//m_scene->addObject(ball);
 
-	// Create a 'Light' ball
-	physics::Circle *ball2 = new physics::Circle(physics::CIRCLE, glm::vec2(230, 100), 15, 1, glm::vec4(0.0f, 0.6f, 0.7f, 0.6f), false);
-	m_scene->addObject(ball2);
+	//// Create a 'Light' ball
+	//physics::Circle *ball2 = new physics::Circle(physics::CIRCLE, glm::vec2(230, 100), 15, 1, glm::vec4(0.0f, 0.6f, 0.7f, 0.6f), false);
+	//m_scene->addObject(ball2);
+
+
+
+	// Get some screen information
+	ini_t *ini = GlobalConfig::getInstance();
+	int screenWidth = ini->get("DisplayOptions", "WindowWidth", int());
+	int screenHeight = ini->get("DisplayOptions", "WindowHeight", int());
+
+	// Create some boundaries
+	physics::Plane *leftWall = new physics::Plane(physics::PLANE, 5, 'x', glm::vec4(0.0f, 1.0f, 0.0f, 1.0f), true);
+	m_scene->addObject(leftWall);
+	physics::Plane *rightWall = new physics::Plane(physics::PLANE, screenWidth - 5, 'x', glm::vec4(0.0f, 1.0f, 0.0f, 1.0f), false);
+	m_scene->addObject(rightWall);
+	physics::Plane *bottomWall = new physics::Plane(physics::PLANE, 5, 'y', glm::vec4(0.0f, 1.0f, 0.0f, 1.0f), true);
+	m_scene->addObject(bottomWall);
+	//physics::Plane *topWall = new physics::Plane(physics::PLANE, screenHeight - 5, 'y', glm::vec4(0.0f, 1.0f, 0.0f, 1.0f), false);
+	//m_scene->addObject(topWall);
 
 	return true;
 }
 
 void PhysicsEngine_2DApp::shutdown() {
+	delete m_mouseController;
 	delete m_scene;
 	delete m_font;
 	delete m_2dRenderer;
@@ -84,13 +105,9 @@ void PhysicsEngine_2DApp::draw() {
 	// begin drawing sprites
 	m_2dRenderer->begin();
 
-
 	m_scene->draw(m_2dRenderer);
 	m_mouseController->draw(m_2dRenderer);
 
-	
-	// output some text, uses the last used colour
-	m_2dRenderer->drawText(m_font, "Press ESC to quit", 0, 0);
 
 	// done drawing sprites
 	m_2dRenderer->end();

@@ -70,21 +70,27 @@ void MouseController::updateControls()
 		{
 		case CIRCLE:
 			int minRadius = 15, maxRadius = 75;
-			float radius = (rand() % maxRadius) + minRadius;
+			float radius = (float)((rand() % maxRadius) + minRadius);
 
 			// Scale the mass according to the size
 			float mass = radius * 0.5;
+
+
+			// Create a 'Heavy' ball
+			//physics::Circle *ball = new physics::Circle(physics::CIRCLE, glm::vec2(100, 100), 30, 10, glm::vec4(0.2f, 0.1f, 0.7f, 0.9f), false);
+			//ball->setVelocity(glm::vec2(300.0f, 0.0f));
+			//m_scene->addObject(ball);
 
 			Circle *c = new physics::Circle(physics::CIRCLE, startMouse, radius, mass, getRandomColor(), false);
 
 			// Pick a random angle and convert the polar coordinates to cartesian to push the object in a random direction
 			float angle = atan2f(startMouse.y - deltaMouse.y, startMouse.x - deltaMouse.x);
 
-			float magnitude = glm::distance(startMouse, deltaMouse) * 50;
+			float magnitude = glm::distance(startMouse, deltaMouse) * 5.f;
 
 			glm::vec2 force = glm::vec2(magnitude * cosf(angle), magnitude * sinf(angle));
 
-			c->applyImpulse(force);
+			c->setVelocity(force);
 			m_activeScene->addObject(c);
 
 			break;

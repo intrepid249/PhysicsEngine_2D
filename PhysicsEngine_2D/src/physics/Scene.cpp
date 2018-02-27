@@ -163,14 +163,30 @@ void Scene::resolveCollisions()
 		glm::vec2 relativeVelocity = col.objB->getVelocity() - col.objA->getVelocity();
 
 		// Put together the impulse forces and calculate elasticity
-		float avgElasticity = 0.8f;
-		float impulseScale = glm::dot(-(1 + avgElasticity) * relativeVelocity, col.normal) / glm::dot(col.normal, col.normal * ((1 / col.objA->getMass()) + (1 / col.objB->getMass())));
+		float avgElasticity = (col.objA->getElasticity() + col.objB->getElasticity()) / 2.0f;
+		
 		
 		// Apply the impulse forces without multiplying by delta time
-		if (!col.objA->isStatic())
-			col.objA->applyImpulse(-col.normal * impulseScale);
-		if (!col.objB->isStatic())
-			col.objB->applyImpulse(col.normal * impulseScale);
+		// Can assume objA is always dynamic
+		if (!col.objB->isStatic() && !col.objA->isStatic()) {
+			float dynamicImpulse = glm::dot(-(1 + avgElasticity) * relativeVelocity, col.normal) / glm::dot(col.normal, col.normal * ((1 / col.objA->getMass()) + (1 / col.objB->getMass())));
+
+
+			col.objA->applyImpulse(-col.normal * dynamicImpulse);
+			col.objB->applyImpulse(col.normal * dynamicImpulse);
+		}
+		else if (col.objB->isStatic()) {
+			glm::vec2 resultVelocity = col.objA->getVelocity() - ((1 + avgElasticity) * glm::dot(col.objA->getVelocity(), col.normal) * col.normal);
+
+
+			col.objA->setVelocity(resultVelocity);
+		}
+		else if (col.objA->isStatic()) {
+			glm::vec2 resultVelocity = col.objB->getVelocity() - ((1 + avgElasticity) * glm::dot(col.objB->getVelocity(), col.normal) * col.normal);
+
+
+			col.objB->setVelocity(resultVelocity);
+		}
 
 		// Separation
 		if (col.objA->getShapeType() == CIRCLE && col.objB->getShapeType() == CIRCLE) {
