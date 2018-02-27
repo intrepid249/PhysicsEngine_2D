@@ -2,7 +2,7 @@
 #include "physics\Circle.h"
 #include "physics\Scene.h"
 
-#include "physics\ColorUtils.hpp"
+#include "physics\ColorUtils.h"
 
 #include <Renderer2D.h>
 #include <Input.h>
@@ -37,6 +37,7 @@ void MouseController::draw(aie::Renderer2D * renderer)
 
 void MouseController::setActiveScene(physics::Scene * scene)
 {
+	m_activeScene = scene;
 }
 
 void MouseController::updateControls()
@@ -58,7 +59,7 @@ void MouseController::updateControls()
 		deltaMouse = glm::vec2(mX, mY);
 	}
 
-	if (input->isMouseButtonUp(aie::INPUT_MOUSE_BUTTON_LEFT)) {
+	if (input->wasMouseButtonReleased(aie::INPUT_MOUSE_BUTTON_LEFT)) {
 		showLine = false;
 
 		// Reset the doOnce for future mouse clicks
@@ -77,10 +78,9 @@ void MouseController::updateControls()
 			Circle *c = new physics::Circle(physics::CIRCLE, startMouse, radius, mass, getRandomColor(), false);
 
 			// Pick a random angle and convert the polar coordinates to cartesian to push the object in a random direction
-			float angle = rand() % 359;
+			float angle = atan2f(startMouse.y - deltaMouse.y, startMouse.x - deltaMouse.x);
 
-			int minDist = 2000, maxDist = 8000;
-			float magnitude = (rand() % maxDist) + minDist;
+			float magnitude = glm::distance(startMouse, deltaMouse) * 50;
 
 			glm::vec2 force = glm::vec2(magnitude * cosf(angle), magnitude * sinf(angle));
 

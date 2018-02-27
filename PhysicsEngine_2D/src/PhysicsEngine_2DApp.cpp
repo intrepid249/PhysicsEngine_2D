@@ -10,8 +10,6 @@
 
 #include "physics\MouseController.h"
 
-#include "physics\ColorUtils.hpp"
-
 #include <glm\ext.hpp>
 
 PhysicsEngine_2DApp::PhysicsEngine_2DApp() {
@@ -34,14 +32,16 @@ bool PhysicsEngine_2DApp::startup() {
 	aie::Gizmos::create(10000, 10000, 10000, 10000);
 
 
-	// Initialise the mouse controller
-	m_mouseController = new physics::MouseController();
-
-
 	// Crete an instance of the physics scene
 	m_scene = new physics::Scene();
 	m_scene->setGlobalForce(glm::vec2(1.0f, 0.0f));
 	m_scene->setGravity(glm::vec2());
+
+
+	// Initialise the mouse controller
+	m_mouseController = new physics::MouseController();
+	m_mouseController->setActiveScene(m_scene);
+
 
 	// Create a 'Heavy' ball
 	physics::Circle *ball = new physics::Circle(physics::CIRCLE, glm::vec2(100, 100), 30, 10, glm::vec4(0.2f, 0.1f, 0.7f, 0.9f), false);

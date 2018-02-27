@@ -42,6 +42,9 @@
     <ClCompile Include="src\physics\Plane.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\physics\ColourUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\PhysicsEngine_2DApp.h">
@@ -59,9 +62,6 @@
     <ClInclude Include="inc\physics\Collision.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="inc\physics\ColorUtils.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="inc\ini\GlobalConfig.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -72,6 +72,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="inc\physics\Plane.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\physics\ColorUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

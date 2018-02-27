@@ -172,6 +172,7 @@
     <ClCompile Include="src\physics\Circle.cpp" />
     <ClCompile Include="src\PhysicsEngine_2DApp.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\physics\ColourUtils.cpp" />
     <ClCompile Include="src\physics\MouseController.cpp" />
     <ClCompile Include="src\physics\Object.cpp" />
     <ClCompile Include="src\physics\Plane.cpp" />
@@ -183,7 +184,7 @@
     <ClInclude Include="inc\PhysicsEngine_2DApp.h" />
     <ClInclude Include="inc\physics\Circle.h" />
     <ClInclude Include="inc\physics\Collision.hpp" />
-    <ClInclude Include="inc\physics\ColorUtils.hpp" />
+    <ClInclude Include="inc\physics\ColorUtils.h" />
     <ClInclude Include="inc\physics\MouseController.h" />
     <ClInclude Include="inc\physics\Object.h" />
     <ClInclude Include="inc\physics\Plane.h" />
