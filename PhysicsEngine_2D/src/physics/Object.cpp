@@ -49,7 +49,7 @@ bool Object::isColliding(Collision &col)
 		case CIRCLE:
 			return isCollidingCirCir(col);
 			break;
-		case PLANE:
+		case AAPLANE:
 			return isCollidingCirPlane(col);
 			break;
 		case AABB:
@@ -57,7 +57,7 @@ bool Object::isColliding(Collision &col)
 		}
 		break;
 
-	case PLANE:
+	case AAPLANE:
 		switch (col.objB->getShapeType())
 		{
 		case CIRCLE:
@@ -70,7 +70,7 @@ bool Object::isColliding(Collision &col)
 		{
 		case CIRCLE:
 			break;
-		case PLANE:
+		case AAPLANE:
 			break;
 		case AABB:
 			break;
@@ -170,6 +170,11 @@ const bool Object::isStatic()
 }
 
 #pragma endregion
+
+bool Object::isCollidingCirPoint(Collision & col)
+{
+	return false;
+}
 
 bool physics::Object::isCollidingCirCir(Collision &col)
 {

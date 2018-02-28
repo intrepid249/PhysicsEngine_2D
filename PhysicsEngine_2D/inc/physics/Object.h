@@ -9,7 +9,7 @@ namespace aie {
 
 namespace physics {
 
-	enum ShapeType { CIRCLE, PLANE, AABB };
+	enum ShapeType { CIRCLE, AAPLANE, AABB };
 
 	class Circle;
 	class Plane;
@@ -74,6 +74,7 @@ namespace physics {
 		/*
 		* Check if two circles are colliding with each other
 		*/
+		bool isCollidingCirPoint(Collision &col);
 		bool isCollidingCirCir(Collision &col);
 		bool isCollidingCirPlane(Collision &col);
 	};

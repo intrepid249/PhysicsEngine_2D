@@ -37,7 +37,7 @@ int main() {
 	int ScreenHeight = ini->get("WindowHeight", int());
 	bool fullscreen = ini->get("Fullscreen", bool());
 
-	
+
 	// allocation
 	auto app = new PhysicsEngine_2DApp();
 

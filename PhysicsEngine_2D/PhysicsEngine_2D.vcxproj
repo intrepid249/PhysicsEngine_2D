@@ -176,6 +176,7 @@
     <ClCompile Include="src\physics\MouseController.cpp" />
     <ClCompile Include="src\physics\Object.cpp" />
     <ClCompile Include="src\physics\Plane.cpp" />
+    <ClCompile Include="src\physics\Point.cpp" />
     <ClCompile Include="src\physics\Rect.cpp" />
     <ClCompile Include="src\physics\Scene.cpp" />
   </ItemGroup>
@@ -188,6 +189,7 @@
     <ClInclude Include="inc\physics\MouseController.h" />
     <ClInclude Include="inc\physics\Object.h" />
     <ClInclude Include="inc\physics\Plane.h" />
+    <ClInclude Include="inc\physics\Point.h" />
     <ClInclude Include="inc\physics\Rect.h" />
     <ClInclude Include="inc\physics\Scene.h" />
   </ItemGroup>

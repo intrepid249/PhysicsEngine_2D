@@ -63,11 +63,11 @@ bool PhysicsEngine_2DApp::startup() {
 	int screenHeight = ini->get("DisplayOptions", "WindowHeight", int());
 
 	// Create some boundaries
-	physics::Plane *leftWall = new physics::Plane(physics::PLANE, 5, 'x', glm::vec4(0.0f, 1.0f, 0.0f, 1.0f), true);
+	physics::Plane *leftWall = new physics::Plane(physics::AAPLANE, 5, 'x', glm::vec4(0.0f, 1.0f, 0.0f, 1.0f), true);
 	m_scene->addObject(leftWall);
-	physics::Plane *rightWall = new physics::Plane(physics::PLANE, screenWidth - 5, 'x', glm::vec4(0.0f, 1.0f, 0.0f, 1.0f), false);
+	physics::Plane *rightWall = new physics::Plane(physics::AAPLANE, screenWidth - 5, 'x', glm::vec4(0.0f, 1.0f, 0.0f, 1.0f), false);
 	m_scene->addObject(rightWall);
-	physics::Plane *bottomWall = new physics::Plane(physics::PLANE, 5, 'y', glm::vec4(0.0f, 1.0f, 0.0f, 1.0f), true);
+	physics::Plane *bottomWall = new physics::Plane(physics::AAPLANE, 5, 'y', glm::vec4(0.0f, 1.0f, 0.0f, 1.0f), true);
 	m_scene->addObject(bottomWall);
 	//physics::Plane *topWall = new physics::Plane(physics::PLANE, screenHeight - 5, 'y', glm::vec4(0.0f, 1.0f, 0.0f, 1.0f), false);
 	//m_scene->addObject(topWall);
