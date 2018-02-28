@@ -1,5 +1,8 @@
 #include "physics\Scene.h"
 #include "physics\Object.h"
+#include "physics\Circle.h"
+#include "physics\Plane.h"
+#include "physics\Rect.h"
 
 #include "ini\GlobalConfig.h"
 
@@ -167,7 +170,7 @@ void Scene::resolveCollisions()
 		
 		
 		// Apply the impulse forces without multiplying by delta time
-		// Can assume objA is always dynamic
+		// If both objects are dynamic
 		if (!col.objB->isStatic() && !col.objA->isStatic()) {
 			float dynamicImpulse = glm::dot(-(1 + avgElasticity) * relativeVelocity, col.normal) / glm::dot(col.normal, col.normal * ((1 / col.objA->getMass()) + (1 / col.objB->getMass())));
 
@@ -175,12 +178,14 @@ void Scene::resolveCollisions()
 			col.objA->applyImpulse(-col.normal * dynamicImpulse);
 			col.objB->applyImpulse(col.normal * dynamicImpulse);
 		}
+		// First object dynamic, second object static
 		else if (col.objB->isStatic()) {
 			glm::vec2 resultVelocity = col.objA->getVelocity() - ((1 + avgElasticity) * glm::dot(col.objA->getVelocity(), col.normal) * col.normal);
 
 
 			col.objA->setVelocity(resultVelocity);
 		}
+		// First object static, second object dynamic
 		else if (col.objA->isStatic()) {
 			glm::vec2 resultVelocity = col.objB->getVelocity() - ((1 + avgElasticity) * glm::dot(col.objB->getVelocity(), col.normal) * col.normal);
 
@@ -188,12 +193,19 @@ void Scene::resolveCollisions()
 			col.objB->setVelocity(resultVelocity);
 		}
 
-		// Separation
-		if (col.objA->getShapeType() == CIRCLE && col.objB->getShapeType() == CIRCLE) {
-			if (!col.objA->isStatic())
-				col.objA->setPosition(col.objA->getPosition() - (col.normal * col.penetration * 0.5f));
-			if (!col.objB->isStatic())
-				col.objB->setPosition(col.objB->getPosition() + (col.normal * col.penetration * 0.5f));
+		// -------- SEPARATION -------- //
+			// If both objects are dynamic
+		if (!col.objA->isStatic() && !col.objB->isStatic()) {
+			col.objA->setPosition(col.objA->getPosition() - (col.normal * col.penetration * 0.5f));
+			col.objB->setPosition(col.objB->getPosition() + (col.normal * col.penetration * 0.5f));
+		}
+		// First object dynamic, second object static
+		else if (!col.objA->isStatic() && col.objB->isStatic()) {
+			col.objA->setPosition(col.objA->getPosition() - (col.normal * col.penetration * 0.5f));
+		}
+		// First object static, second object dynamic
+		else if (col.objA->isStatic() && !col.objB->isStatic()) {
+			col.objB->setPosition(col.objB->getPosition() + (col.normal * col.penetration * 0.5f));
 		}
 	}
 	m_collisions.clear();

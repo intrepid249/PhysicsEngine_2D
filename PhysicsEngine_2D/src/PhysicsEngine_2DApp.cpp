@@ -38,7 +38,7 @@ bool PhysicsEngine_2DApp::startup() {
 	// Crete an instance of the physics scene
 	m_scene = new physics::Scene();
 	m_scene->setGlobalForce(glm::vec2(1.0f, 0.0f));
-	m_scene->setGravity(glm::vec2());
+	m_scene->setGravity(glm::vec2(0.0f, -9.8f));
 
 
 	// Initialise the mouse controller

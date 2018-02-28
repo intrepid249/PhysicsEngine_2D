@@ -12,6 +12,8 @@ namespace physics {
 	enum ShapeType { CIRCLE, PLANE, AABB };
 
 	class Circle;
+	class Plane;
+	class Rect;
 
 	class Object
 	{

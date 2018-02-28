@@ -216,6 +216,11 @@ bool physics::Object::isCollidingCirPlane(Collision & col)
 	if (other->getNormal().y != 0) // y-aligned axis
 		p = glm::vec2(c.x, other->getPosition().y);
 
+
+	// Calculate object penetration
+	col.penetration = obj->getRadius() - glm::distance(c, p);
+
+
 	if (glm::distance(c, p) < obj->getRadius())
 		return true;
 	return false;
